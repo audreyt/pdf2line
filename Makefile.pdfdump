@@ -1,0 +1,92 @@
+#------------------------------------------------------------------------
+
+.SUFFIXES: .cc .c
+
+.cc.o:
+	g++ -O -I. -Ixpdf -c $< -o $@
+
+.c.o:
+	gcc -O -I. -Ixpdf -c $< -o $@
+
+OBJS = \
+	xpdf/Annot.o \
+	xpdf/Array.o \
+	xpdf/BuiltinFont.o \
+	xpdf/BuiltinFontTables.o \
+	xpdf/CMap.o \
+	xpdf/Catalog.o \
+	xpdf/CharCodeToUnicode.o \
+	xpdf/CoreOutputDev.o \
+	xpdf/Decrypt.o \
+	xpdf/Dict.o \
+	xpdf/Error.o \
+	xpdf/FixedPoint.o \
+	xpdf/FoFiBase.o \
+	xpdf/FoFiEncodings.o \
+	xpdf/FoFiTrueType.o \
+	xpdf/FoFiType1.o \
+	xpdf/FoFiType1C.o \
+	xpdf/FontEncodingTables.o \
+	xpdf/Function.o \
+	xpdf/GHash.o \
+	xpdf/GList.o \
+	xpdf/GString.o \
+	xpdf/Gfx.o \
+	xpdf/GfxFont.o \
+	xpdf/GfxState.o \
+	xpdf/GlobalParams.o \
+	xpdf/JArithmeticDecoder.o \
+	xpdf/JBIG2Stream.o \
+	xpdf/JPXStream.o \
+	xpdf/Lexer.o \
+	xpdf/Link.o \
+	xpdf/NameToCharCode.o \
+	xpdf/Object.o \
+	xpdf/Outline.o \
+	xpdf/OutputDev.o \
+	xpdf/PDFCore.o \
+	xpdf/PDFDoc.o \
+	xpdf/PDFDocEncoding.o \
+	xpdf/PSTokenizer.o \
+	xpdf/Page.o \
+	xpdf/Parser.o \
+	xpdf/SecurityHandler.o \
+	xpdf/Splash.o \
+	xpdf/SplashBitmap.o \
+	xpdf/SplashClip.o \
+	xpdf/SplashFTFont.o \
+	xpdf/SplashFTFontEngine.o \
+	xpdf/SplashFTFontFile.o \
+	xpdf/SplashFont.o \
+	xpdf/SplashFontEngine.o \
+	xpdf/SplashFontFile.o \
+	xpdf/SplashFontFileID.o \
+	xpdf/SplashOutputDev.o \
+	xpdf/SplashPath.o \
+	xpdf/SplashPattern.o \
+	xpdf/SplashScreen.o \
+	xpdf/SplashState.o \
+	xpdf/SplashT1Font.o \
+	xpdf/SplashT1FontEngine.o \
+	xpdf/SplashT1FontFile.o \
+	xpdf/SplashXPath.o \
+	xpdf/SplashXPathScanner.o \
+	xpdf/Stream.o \
+	xpdf/TextOutputDev.o \
+	xpdf/UnicodeMap.o \
+	xpdf/UnicodeTypeTable.o \
+	xpdf/XRef.o \
+	xpdf/gfile.o \
+	xpdf/gmem.o \
+	xpdf/gmempp.o \
+	xpdf/parseargs.o \
+	xpdf/pdfdump.o
+
+all: $(OBJS)
+	-@rm dist/build/pdfdump/pdfdump
+	g++ -o dist/build/pdfdump/pdfdump $(OBJS)
+
+clean:
+	-@rm dist/build/pdfdump/pdfdump xpdf/*.o
+
+#------------------------------------------------------------------------
