@@ -1,5 +1,6 @@
 name:               pdf2line
 version:            0.0.1
+homepage:           http://github.com/audreyt/pdf2line/
 copyright:          2008 Audrey Tang; distributed with parts of "xpdf" by Glyph & Cog, LLC.
 license:            GPL
 license-file:       LICENSE
