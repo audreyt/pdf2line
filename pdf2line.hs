@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -O2 -fglasgow-exts -funbox-strict-fields #-}
+{-# OPTIONS_GHC -O2 #-}
 
 module Main where
 import Data.Binary
