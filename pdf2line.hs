@@ -123,23 +123,24 @@ instance Binary Page where
                     0x0A    -> done
                     _       -> fail $! "Bad parse: " ++ show w8
             where
-            done = return $! pageOf (foldl (buildPage minPt) (MkBuild (MkPage IM.empty) 0) chunks)
-        getInt :: Int -> Get Int
-        getInt (n+1) = liftM2 mkInt getWord8 (getInt n)
-            where
-            mkInt digit rest = fromEnum (digit - 0x30) * (10 ^ n) + rest
-        getInt _     = return 0
-        buildPage minPt (MkBuild (MkPage pg) base) (MkChunk col ln pt str)
-            = MkBuild (MkPage (IM.insert base' entry pg)) base'
-            where
-            sz      = S.length str
-            width   = if __AlignRight__
-                then ((col * 2) `div` minPt) - sz
-                else ((col * 2) `div` minPt)
-            base'   = if abs (ln - base) + (minPt `div` 4) < minPt then base else ln
-            entry   = case IM.lookup base' pg of
-                Just (MkLine pt' strs)  -> MkLine (max pt pt') (IM.insert width str strs)
-                _                       -> MkLine pt (IM.singleton width str)
+              done = return $! pageOf (foldl (buildPage minPt) (MkBuild (MkPage IM.empty) 0) chunks)
+
+getInt :: Int -> Get Int
+getInt (n+1) = liftM2 mkInt getWord8 (getInt n)
+  where
+    mkInt digit rest = fromEnum (digit - 0x30) * (10 ^ n) + rest
+    getInt _     = return 0
+
+buildPage minPt (MkBuild (MkPage pg) base) (MkChunk col ln pt str) = MkBuild (MkPage (IM.insert base' entry pg)) base'
+  where
+    sz      = S.length str
+    width   = if __AlignRight__
+              then ((col * 2) `div` minPt) - sz
+              else ((col * 2) `div` minPt)
+    base'   = if abs (ln - base) + (minPt `div` 4) < minPt then base else ln
+    entry   = case IM.lookup base' pg of
+      Just (MkLine pt' strs)  -> MkLine (max pt pt') (IM.insert width str strs)
+      _                       -> MkLine pt (IM.singleton width str)
 
 data Build = MkBuild
     { pageOf    :: !Page
