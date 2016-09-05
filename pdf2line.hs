@@ -126,9 +126,9 @@ instance Binary Page where
               done = return $! pageOf (foldl (buildPage minPt) (MkBuild (MkPage IM.empty) 0) chunks)
 
 getInt :: Int -> Get Int
-getInt (n+1) = liftM2 mkInt getWord8 (getInt n)
+getInt n = liftM2 mkInt getWord8 (getInt (n-1))
   where
-    mkInt digit rest = fromEnum (digit - 0x30) * (10 ^ n) + rest
+    mkInt digit rest = fromEnum (digit - 0x30) * (10 ^ (n-1)) + rest
     getInt _     = return 0
 
 buildPage minPt (MkBuild (MkPage pg) base) (MkChunk col ln pt str) = MkBuild (MkPage (IM.insert base' entry pg)) base'
